@@ -5,6 +5,7 @@ import com.example.demo.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,26 @@ public class RentalService {
             throw new IllegalStateException("The book has already been returned.");
         }
     }
+
+    public List<Rental> getOverdueRentals(int thresholdDays) {
+        List<Rental> allRentals = rentalRepository.findAll();
+        List<Rental> overdueRentals = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+
+        for (Rental rental : allRentals) {
+            LocalDate rentalDate = rental.getRentalDate(); // Assuming you have a method to get the rental date
+            if (rentalDate != null) {
+                LocalDate dueDate = rentalDate.plusDays(thresholdDays);
+                if (currentDate.isAfter(dueDate)) {
+                    overdueRentals.add(rental);
+                }
+            }
+        }
+
+        return overdueRentals;
+    }
+
+
 
     // Delete a rental
     public void deleteRental(Long id) {

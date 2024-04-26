@@ -68,12 +68,19 @@ public class Rental {
         this.rentalDate=now;
     }
 
+    public LocalDate getRentalDate()
+    {
+        return this.rentalDate;
+    }
+
+
     public void setReturnDate(LocalDate now) {
         this.returnDate=now;
     }
     public Book getBook() {
         return this.book;
     }
+
 
 
     // Other methods...
