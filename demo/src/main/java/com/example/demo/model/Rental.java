@@ -83,5 +83,10 @@ public class Rental {
 
 
 
+    public String getRenterName() {
+        return renterName;
+    }
+
+
     // Other methods...
 }

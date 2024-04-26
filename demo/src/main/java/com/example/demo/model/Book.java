@@ -90,4 +90,13 @@ public class Book {
     }
 
 
+    public void setAvailableForRent(boolean availableForRent) {
+        if (availableForRent && rental == null) {
+            // If the book is made available for rent and it's not currently rented, set the rental
+            this.rental = new Rental();
+        } else if (!availableForRent && rental != null) {
+            // If the book is made unavailable for rent and it's currently rented, mark it as not rented
+            this.rental = null;
+        }
+    }
 }

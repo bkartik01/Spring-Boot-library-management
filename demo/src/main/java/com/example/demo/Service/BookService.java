@@ -1,9 +1,12 @@
 package com.example.demo.Service;
 
 import com.example.demo.model.Book;
+import com.example.demo.model.Rental;
 import com.example.demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,4 +54,18 @@ public class BookService {
             throw new IllegalArgumentException("Book not found with ID: " + id);
         }
     }
+
+    @Autowired
+    private RentalService rentalService;
+
+    public Rental rentBook(Long bookId, String renterName) {
+        Book book = getBookById(bookId);
+        if (book.isAvailableForRent()) {
+            Rental rental = new Rental(book, renterName, LocalDate.now());
+            return rentalService.rentBook(rental);
+        } else {
+            throw new IllegalStateException("The book is already rented or unavailable.");
+        }
+    }
+
 }
